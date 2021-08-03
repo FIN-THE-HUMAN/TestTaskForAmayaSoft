@@ -15,4 +15,9 @@ public class Cell : MonoBehaviour
     {
         
     }
+
+    public void ReactToWrongAnswer()
+    {
+       Debug.Log("ReactToWrongAnswer");
+    }
 }

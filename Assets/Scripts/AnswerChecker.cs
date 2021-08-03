@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class AnswerChecker : MonoBehaviour
@@ -12,20 +14,30 @@ public class AnswerChecker : MonoBehaviour
     [Space]
     public Text AnswerReactionText;
 
+    public UnityEvent onAnswerAccepted;
+    public UnityEvent onAnswerRejected;
+
     void Start()
     {
         AnswerReactionText.enabled = false;
     }
-    public void CheckAnswer(Image picture)
+    public void CheckAnswer(Cell pressedCell)
     {
-        if (picture.sprite == TaskInitializer.RightPicture)
+        AnswerReactionText.enabled = true;
+
+        if (pressedCell.Picture.sprite == TaskInitializer.RightPicture)
         {
             AnswerReactionText.text = RightAnswer;
-            LevelsGenerator.GenerateLevel();
+            onAnswerAccepted.Invoke();
         }
         else
         {
             AnswerReactionText.text = WrongAnswer;
+            pressedCell.ReactToWrongAnswer();
         }
+
     }
 }
+
+[Serializable]
+public class AnswerCheckEvent : UnityEvent<bool> { }

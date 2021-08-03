@@ -3,23 +3,22 @@ using UnityEngine.UI;
 
 public class TaskInitializer : MonoBehaviour
 {
-    private const string Find = "Find ";
+    private const string FIND = "Find ";
 
-    //public int RightAnswerPosition;
-    public string Answer;
-    public Sprite RightPicture;
+    public string _answer;
+    public Sprite _rightPicture;
 
-    [Space]
+    public Sprite RightPicture => _rightPicture;
     public Text TaskText;
 
     void Start()
     {
-        TaskText.text = Find + Answer;
+        TaskText.text = FIND + _answer;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetAnswer(string answer, Sprite picture)
     {
-        
+        _answer = answer;
+        _rightPicture = picture;
     }
 }
