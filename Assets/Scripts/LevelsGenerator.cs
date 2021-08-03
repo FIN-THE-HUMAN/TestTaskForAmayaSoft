@@ -1,6 +1,7 @@
 ﻿
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class LevelsGenerator : MonoBehaviour
@@ -16,11 +17,15 @@ public class LevelsGenerator : MonoBehaviour
     [SerializeField]
     private TaskInitializer _taskInitializer;
 
+
     [Space]
+    public GridLayoutGroup[] grids; 
     public LevelOptions[] Levels;
     [Space]
     public TaskInitializer TaskInitializer;
     public CellsPicturesAndNamesSet[] CellsPicturesSets;
+    [Space]
+    public UnityEvent LevelsEnded;
 
     private int tempLevel = 1;
 
@@ -31,7 +36,11 @@ public class LevelsGenerator : MonoBehaviour
 
     public void GenerateLevel() 
     {
-        if (tempLevel > Levels.Length) return;
+        if (tempLevel > Levels.Length)
+        {
+            LevelsEnded.Invoke();
+            return;
+        }
         tempLevel++;
 
         if (CellsPicturesSets.Length == 0) throw new System.IndexOutOfRangeException("There are no CellsPicturesSets");
@@ -59,16 +68,14 @@ public class LevelsGenerator : MonoBehaviour
             cell.Picture.sprite = randomPictureAndNamePair.Picture.sprite;
             cell.Picture.transform.rotation = randomPictureAndNamePair.Picture.transform.rotation;
             cell.Picture.transform.localScale = randomPictureAndNamePair.Picture.transform.localScale;
-            cell.transform.SetParent(_grid.gameObject.transform);
+            cell.transform.SetParent(grids[tempLevel - 1].gameObject.transform);
             cell.Button.onClick.AddListener(() => _answerChecker.CheckAnswer(cell));
         }
-
-        Debug.Log("Level Generated");
     }
 
     public void ResetLevels()
     {
-
+        tempLevel = 1;
     }
 }
 
