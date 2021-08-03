@@ -16,9 +16,8 @@ public class TaskInitializer : MonoBehaviour
         TaskText.text = FIND + _answer;
     }
 
-    public void SetAnswer(string answer, Sprite picture)
+    public void SetAnswer(string answer)
     {
         _answer = answer;
-        _rightPicture = picture;
     }
 }

@@ -5,7 +5,7 @@ public class GridContainer : MonoBehaviour
 {
     public Cell[] Cells;
 
-    void Awake()
+    void Start()
     {
         Cells = gameObject.GetComponentsInChildren<Cell>();
     }

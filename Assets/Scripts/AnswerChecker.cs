@@ -7,6 +7,7 @@ public class AnswerChecker : MonoBehaviour
 {
     private const string WrongAnswer = "Wrong Answer";
     private const string RightAnswer = "Right Answer";
+    private Sprite _answerSprite;
 
     public TaskInitializer TaskInitializer;
     public LevelsGenerator LevelsGenerator;
@@ -25,7 +26,7 @@ public class AnswerChecker : MonoBehaviour
     {
         AnswerReactionText.enabled = true;
 
-        if (pressedCell.Picture.sprite == TaskInitializer.RightPicture)
+        if (pressedCell.Picture.sprite == _answerSprite)
         {
             AnswerReactionText.text = RightAnswer;
             onAnswerAccepted.Invoke();
@@ -37,7 +38,9 @@ public class AnswerChecker : MonoBehaviour
         }
 
     }
-}
 
-[Serializable]
-public class AnswerCheckEvent : UnityEvent<bool> { }
+    public void SetAnswer(Sprite answerSprite)
+    {
+        _answerSprite = answerSprite;
+    }
+}
