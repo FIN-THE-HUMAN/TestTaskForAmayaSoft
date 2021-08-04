@@ -15,4 +15,16 @@ public static class Extentions
         }
         return array;
     }
+
+    public static T[] Remove<T>(this T[] array, T a)
+    {
+        var result = new List<T>(array);
+        result.Remove(a);
+        return result.ToArray();
+    }
+
+    public static Color ChangeAlpha(this Color color, float a)
+    {
+        return new Color(color.r, color.g, color.b, a);
+    }
 }

@@ -1,42 +1,28 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class AnswerChecker : MonoBehaviour
 {
-    private const string WrongAnswer = "Wrong Answer";
-    private const string RightAnswer = "Right Answer";
     private Sprite _answerSprite;
+    [SerializeField]
+    public TaskPresenter _taskPresenter;
+    [SerializeField]
+    public LevelsGenerator _levelsGenerator;
+    [SerializeField]
+    private CellEvent _onAnswerAccepted;
 
-    public TaskInitializer TaskInitializer;
-    public LevelsGenerator LevelsGenerator;
+    public CellEvent OnAnswerAccepted => _onAnswerAccepted;
 
-    [Space]
-    public Text AnswerReactionText;
-
-    public UnityEvent onAnswerAccepted;
-    public UnityEvent onAnswerRejected;
-
-    void Start()
-    {
-        AnswerReactionText.enabled = false;
-    }
     public void CheckAnswer(Cell pressedCell)
     {
-        AnswerReactionText.enabled = true;
-
         if (pressedCell.Picture.sprite == _answerSprite)
         {
-            AnswerReactionText.text = RightAnswer;
-            onAnswerAccepted.Invoke();
+            _onAnswerAccepted.Invoke(pressedCell);
         }
         else
         {
-            AnswerReactionText.text = WrongAnswer;
             pressedCell.ReactToWrongAnswer();
         }
-
     }
 
     public void SetAnswer(Sprite answerSprite)
@@ -44,3 +30,6 @@ public class AnswerChecker : MonoBehaviour
         _answerSprite = answerSprite;
     }
 }
+
+[System.Serializable]
+public class CellEvent : UnityEvent<Cell> { }

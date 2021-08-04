@@ -1,23 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class Cell : MonoBehaviour
 {
     public Button Button;
     public Image Picture;
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
     public void ReactToWrongAnswer()
     {
-       Debug.Log("ReactToWrongAnswer");
+        Picture.transform.DOShakePosition(1, 3);
     }
+
 }
