@@ -78,8 +78,10 @@ public class LevelsGenerator : MonoBehaviour
             cell.transform.SetParent(_grids[tempLevel - 1].gameObject.transform);
             cell.Button.onClick.AddListener(() => StartCoroutine(_answerChecker.CheckAnswer(cell)));
 
+            cell.transform.position = new Vector3(cell.transform.position.x, cell.transform.position.y, 0);
             cell.transform.DOScale(new Vector3(0.1f, 0.1f, 0.1f), 0.01f);
             cell.transform.DOScale(new Vector3(1f, 1f, 1f), _cellBounceDuration);
+            
         }
         tempLevel++;
     }
