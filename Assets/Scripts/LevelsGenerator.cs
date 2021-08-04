@@ -15,7 +15,6 @@ public class LevelsGenerator : MonoBehaviour
     private AnswerChecker _answerChecker;
     [SerializeField]
     private TaskPresenter _taskPresenter;
-
     [Space]
     [SerializeField]
     private GridLayoutGroup[] _grids;
@@ -77,7 +76,7 @@ public class LevelsGenerator : MonoBehaviour
             cell.Picture.transform.rotation = randomPictureAndNamePair.Picture.transform.rotation;
             cell.Picture.transform.localScale = randomPictureAndNamePair.Picture.transform.localScale;
             cell.transform.SetParent(_grids[tempLevel - 1].gameObject.transform);
-            cell.Button.onClick.AddListener(() => _answerChecker.CheckAnswer(cell));
+            cell.Button.onClick.AddListener(() => StartCoroutine(_answerChecker.CheckAnswer(cell)));
 
             cell.transform.DOScale(new Vector3(0.1f, 0.1f, 0.1f), 0.01f);
             cell.transform.DOScale(new Vector3(1f, 1f, 1f), _cellBounceDuration);

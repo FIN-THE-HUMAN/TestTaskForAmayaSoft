@@ -1,27 +1,39 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class AnswerChecker : MonoBehaviour
 {
     private Sprite _answerSprite;
     [SerializeField]
-    public TaskPresenter _taskPresenter;
+    private TaskPresenter _taskPresenter;
     [SerializeField]
-    public LevelsGenerator _levelsGenerator;
+    private LevelsGenerator _levelsGenerator;
     [SerializeField]
-    private CellEvent _onAnswerAccepted;
+    private float _answerWaiting;
+    [SerializeField]
+    private CellEvent _onAnswerAcceptedStart;
+    [SerializeField]
+    private CellEvent _onAnswerAcceptedEnd;
+    [SerializeField]
+    private CellEvent _onAnswerRejected;
 
-    public CellEvent OnAnswerAccepted => _onAnswerAccepted;
+    public CellEvent OnAnswerAcceptedStart => _onAnswerAcceptedStart;
+    public CellEvent OnAnswerAccepted => _onAnswerAcceptedEnd;
+    public CellEvent OnAnswerRejected => _onAnswerRejected;
 
-    public void CheckAnswer(Cell pressedCell)
+    public IEnumerator CheckAnswer(Cell pressedCell)
     {
         if (pressedCell.Picture.sprite == _answerSprite)
         {
-            _onAnswerAccepted.Invoke(pressedCell);
+            _onAnswerAcceptedStart.Invoke(pressedCell);
+            yield return new WaitForSeconds(_answerWaiting);
+            _onAnswerAcceptedEnd.Invoke(pressedCell);
         }
         else
         {
-            pressedCell.ReactToWrongAnswer();
+            OnAnswerRejected.Invoke(pressedCell);
+            yield return null;
         }
     }
 
